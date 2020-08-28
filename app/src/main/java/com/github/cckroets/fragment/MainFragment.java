@@ -1,35 +1,46 @@
 package com.github.cckroets.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.FragmentActivity;
 
 public class MainFragment extends Fragment {
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main, container, false);
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        FragmentActivity activity = getActivity();
+
+        view.findViewById(R.id.navigate_button_with_anim).setOnClickListener(v -> {
+            navigateToViewPager(activity, true);
+        });
+        view.findViewById(R.id.navigate_button_no_anim).setOnClickListener(v -> {
+            navigateToViewPager(activity, false);
+        });
+        return view;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        view.findViewById(R.id.navigate_button).setOnClickListener(v -> {
-            DialogFragment fragment = new BottomSheetFragment();
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager()
-                         .beginTransaction()
-                         .addToBackStack("bottom");
-            fragment.show(transaction, "bottom");
+    private void navigateToViewPager(@NonNull FragmentActivity activity, boolean withAnim) {
+        new Handler().post(() -> {
+            Fragment fragment = new ParentFragment();
+            activity.getSupportFragmentManager()
+                    .beginTransaction()
+                    .addToBackStack("parent")
+                    .setCustomAnimations(withAnim ? R.anim.fragment_enter : 0,
+                                         withAnim ? R.anim.hold : 0,
+                                         0,
+                                         withAnim ? R.anim.fragment_exit : 0)
+                    .replace(android.R.id.content, fragment, "parent")
+                    .setPrimaryNavigationFragment(fragment)
+                    .commit();
+            activity.getSupportFragmentManager().executePendingTransactions();
         });
     }
 }

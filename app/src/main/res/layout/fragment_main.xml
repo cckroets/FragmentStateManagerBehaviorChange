@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="48dp"
+    android:orientation="vertical"
     tools:context=".MainFragment">
 
     <Button
-        android:text="Open BottomSheet"
+        android:text="Open ViewPager with Animations"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/navigate_button"/>
+        android:layout_height="wrap_content"
+        android:id="@+id/navigate_button_with_anim"/>
 
+    <Button
+        android:text="Open ViewPager without Animations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/navigate_button_no_anim"/>
 
-</FrameLayout>
+</LinearLayout>

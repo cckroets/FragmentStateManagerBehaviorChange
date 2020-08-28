@@ -40,8 +40,8 @@ public class ChildFragment extends Fragment {
 
     @Override
     public void onResume() {
-        super.onResume();
         Log.d(MyApplication.ACTUAL_FRAGMENT_LIFECYCLE_TAG, "onResume():" + this);
+        super.onResume();
     }
 
     @Override
